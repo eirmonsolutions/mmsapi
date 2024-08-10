@@ -40,13 +40,7 @@ app.post('/products', async (req, res) => {
 // Read all products
 app.get('/api/liquor', async (req, res) => {
     try {
-        const page = parseInt(req.query.page, 10) || 1;
-        const limit = parseInt(req.query.limit, 10) || 10;
-
-        const liquor = await Product.find({ Department: "Liquor" })
-            .skip((page - 1) * limit)
-            .limit(limit)
-            .lean();
+        const liquor = await Product.find({ Department: "Liquor" });
 
         res.status(200).send(liquor);
     } catch (error) {
@@ -65,7 +59,7 @@ app.get('/api/beer', async (req, res) => {
 
 app.get('/api/wine', async (req, res) => {
     try {
-        const wine = await Product.find({ Department: "Wine" });
+        const wine = await Product.find( {Department: "Wine" });
         res.status(200).send(wine);
     } catch (error) {
         res.status(400).send({ error: error.message });
