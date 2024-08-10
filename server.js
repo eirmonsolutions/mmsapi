@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://eirmonsolutions06:eejn8UiF6g0Ig9ek@cluster0.twv6z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
+    serverSelectionTimeoutMS: 30000,
     useUnifiedTopology: true
 }).then(() => {
     console.log("Connected to MongoDB");
