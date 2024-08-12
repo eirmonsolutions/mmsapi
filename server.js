@@ -1,9 +1,7 @@
-// server.js
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+const cors = require('cors');
 const Product = require('./productModel');
 
 const app = express();
@@ -11,16 +9,19 @@ const port = 3000;
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://eirmonsolutions06:eejn8UiF6g0Ig9ek@cluster0.twv6z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 30000, 
-    socketTimeoutMS: 45000
-}).then(() => {
+    serverSelectionTimeoutMS: 50000, // Increase timeout to 50 seconds
+    socketTimeoutMS: 60000 // Increase socket timeout to 60 seconds
+})
+.then(() => {
     console.log("Connected to MongoDB");
-}).catch((err) => {
+})
+.catch((err) => {
     console.error("Could not connect to MongoDB", err);
 });
 
@@ -41,8 +42,7 @@ app.post('/products', async (req, res) => {
 // Read all products
 app.get('/api/liquor', async (req, res) => {
     try {
-        const liquor = await Product.find({ Department: "Liquor" });
-
+        const liquor = await Product.find({ department: "Liquor" });
         res.status(200).send(liquor);
     } catch (error) {
         res.status(400).send({ error: error.message });
@@ -51,7 +51,7 @@ app.get('/api/liquor', async (req, res) => {
 
 app.get('/api/beer', async (req, res) => {
     try {
-        const beer = await Product.find({ Department: "Beer" });
+        const beer = await Product.find({ department: "Beer" });
         res.status(200).send(beer);
     } catch (error) {
         res.status(400).send({ error: error.message });
@@ -60,7 +60,7 @@ app.get('/api/beer', async (req, res) => {
 
 app.get('/api/wine', async (req, res) => {
     try {
-        const wine = await Product.find( {Department: "Wine" });
+        const wine = await Product.find({ department: "Wine" });
         res.status(200).send(wine);
     } catch (error) {
         res.status(400).send({ error: error.message });
